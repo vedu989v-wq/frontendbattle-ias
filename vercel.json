@@ -1,0 +1,26 @@
+{
+  "projectSettings": {
+    "outputDirectory": ".",
+    "installCommand": null,
+    "buildCommand": null,
+    "devCommand": null,
+    "framework": null
+  },
+  "env": {},
+  "buildCommand": null,
+  "outputDirectory": null,
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/index.html"
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
