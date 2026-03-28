@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Courses | Ravindra's IAS Institute</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <style>
+    :root {
+      --navy: #0b2a52; --navy-mid: #163d72;
+      --gold: #c9a84c; --gold-light: #e8c96a;
+      --cream: #fdf8f0; --text: #1a1a2e;
+      --text-muted: #5a6478;
+      --border: rgba(11,42,82,0.12);
+      --shadow: 0 4px 24px rgba(11,42,82,0.10);
+      --header-h: 115px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+
+    header { background: var(--navy); position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 20px rgba(11,42,82,0.25); transition: box-shadow 0.3s; }
+    header.scrolled { box-shadow: 0 4px 30px rgba(11,42,82,0.4); }
+    .top-bar { display: flex; justify-content: space-between; align-items: center; padding: 12px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); animation: slideDown 0.6s ease both; }
+    @keyframes slideDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .logo { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+    .logo img { width: 48px; height: 48px; border-radius: 8px; object-fit: cover; transition: transform 0.3s; }
+    .logo:hover img { transform: scale(1.08) rotate(-2deg); }
+    .logo-text { display: flex; flex-direction: column; }
+    .logo-text span.name { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: #fff; letter-spacing: 0.03em; line-height: 1.2; }
+    .logo-text span.tagline { font-size: 0.7rem; color: var(--gold-light); letter-spacing: 0.12em; text-transform: uppercase; }
+    .social-icons { display: flex; gap: 16px; }
+    .social-icons a { color: rgba(255,255,255,0.65); font-size: 1.1rem; transition: color 0.2s, transform 0.2s; text-decoration: none; }
+    .social-icons a:hover { color: var(--gold-light); transform: translateY(-2px) scale(1.15); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: rgba(255,255,255,0.85); border-radius: 2px; transition: all 0.3s; }
+    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+    nav { background: var(--navy-mid); }
+    nav ul { list-style: none; display: flex; justify-content: center; gap: 0; align-items: stretch; position: relative; margin: 0; padding: 0 40px; }
+    nav ul li { display: flex; }
+    nav a { color: rgba(255,255,255,0.80); text-decoration: none; font-size: 0.95rem; font-weight: 500; letter-spacing: 0.04em; display: block; padding: 14px 22px; transition: color 0.25s; white-space: nowrap; }
+    nav a:hover { color: #fff; }
+    nav a.active { color: var(--gold-light); }
+    .nav-indicator { position: absolute; bottom: 0; height: 3px; background: var(--gold); border-radius: 2px 2px 0 0; transition: left 0.35s cubic-bezier(0.4,0,0.2,1), width 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.2s; pointer-events: none; left: 0; width: 0; opacity: 0; }
+
+    .page-hero { background: var(--navy); padding: 70px 40px; text-align: center; position: relative; overflow: hidden; }
+    .page-hero::before { content: ''; position: absolute; inset: 0; background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60"><circle cx="30" cy="30" r="1" fill="rgba(201,168,76,0.15)"/></svg>'); }
+    .page-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(201,168,76,0.08) 0%, transparent 60%); }
+    .page-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem,5vw,2.8rem); color: #fff; position: relative; z-index: 1; animation: heroFadeUp 0.8s 0.2s both; }
+    .page-hero p { color: rgba(255,255,255,0.65); margin-top: 12px; font-size: 1rem; position: relative; z-index: 1; animation: heroFadeUp 0.8s 0.4s both; }
+    .breadcrumb { display: flex; justify-content: center; gap: 8px; margin-top: 14px; font-size: 0.82rem; color: rgba(255,255,255,0.45); position: relative; z-index: 1; animation: heroFadeUp 0.8s 0.5s both; }
+    .breadcrumb a { color: var(--gold-light); text-decoration: none; }
+    @keyframes heroFadeUp { from { transform: translateY(24px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    section { padding: 70px 40px; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.5rem,3vw,2rem); color: var(--navy); text-align: center; margin-bottom: 8px; }
+    .section-rule { width: 56px; height: 3px; background: var(--gold); border-radius: 2px; margin: 12px auto 40px; }
+
+    .scroll-layer { position: relative; z-index: 20; border-radius: 28px 28px 0 0; overflow: hidden; box-shadow: 0 -8px 40px rgba(11,42,82,0.18); }
+
+    /* FILTER */
+    .filter-bar { background: #fff; padding: 24px 40px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; border-bottom: 1px solid var(--border); }
+    .filter-chip { padding: 8px 20px; border-radius: 30px; border: 1.5px solid var(--border); background: #fff; color: var(--text-muted); font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.22s; font-family: 'DM Sans', sans-serif; }
+    .filter-chip:hover { border-color: var(--navy); color: var(--navy); transform: translateY(-1px); }
+    .filter-chip.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+
+    /* COURSES GRID */
+    .courses-section { background: #f4f7fb; }
+    .courses-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 28px; max-width: 1100px; margin: 0 auto; }
+    .course-card { background: #fff; border-radius: 18px; overflow: hidden; border: 1px solid var(--border); transition: transform 0.35s, box-shadow 0.35s, border-color 0.35s; display: flex; flex-direction: column; }
+    .course-card:hover { transform: translateY(-10px); box-shadow: 0 20px 56px rgba(11,42,82,0.14); border-color: rgba(201,168,76,0.3); }
+    .course-img-wrap { position: relative; width: 100%; height: 190px; overflow: hidden; }
+    .course-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.55s ease; }
+    .course-card:hover .course-img-wrap img { transform: scale(1.07); }
+    .course-img-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 50%, rgba(11,42,82,0.3)); }
+    .course-body { padding: 20px 22px; flex: 1; display: flex; flex-direction: column; }
+    .course-meta { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+    .badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em; }
+    .badge-mode { background: rgba(11,42,82,0.08); color: var(--navy); }
+    .badge-level { background: rgba(201,168,76,0.15); color: #7a5a10; }
+    .course-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--navy); margin-bottom: 14px; }
+    .course-features { list-style: none; margin-bottom: 20px; flex: 1; }
+    .course-features li { display: flex; align-items: flex-start; gap: 9px; padding: 5px 0; font-size: 0.88rem; color: var(--text-muted); line-height: 1.4; }
+    .course-features li::before { content: '✓'; color: var(--gold); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+    .course-actions { display: flex; gap: 10px; padding-top: 16px; border-top: 1px solid var(--border); }
+    .btn-outline { flex: 1; padding: 10px; background: transparent; color: var(--navy); border: 1.5px solid var(--navy); border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.85rem; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
+    .btn-outline:hover { background: var(--navy); color: #fff; }
+    .btn-primary { flex: 1; padding: 10px; background: var(--navy); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.85rem; font-family: 'DM Sans', sans-serif; transition: background 0.2s, transform 0.2s; }
+    .btn-primary:hover { background: var(--navy-mid); transform: translateY(-1px); }
+
+    /* DESC */
+    .desc-section { background: #fff; }
+    .desc-box { max-width: 900px; margin: 0 auto; }
+    .desc-box h2 { font-family: 'Playfair Display', serif; font-size: 1.7rem; color: var(--navy); margin-bottom: 18px; }
+    .desc-box p { color: var(--text-muted); line-height: 1.75; margin-bottom: 14px; font-size: 0.95rem; }
+
+    /* TABLE */
+    .table-section { background: #f4f7fb; }
+    .courses-table { width: 100%; border-collapse: collapse; max-width: 1000px; margin: 0 auto; background: #fff; border-radius: 14px; overflow: hidden; border: 1px solid var(--border); }
+    .courses-table th { background: var(--navy); color: #fff; padding: 14px 20px; text-align: left; font-size: 0.88rem; letter-spacing: 0.06em; text-transform: uppercase; }
+    .courses-table td { padding: 14px 20px; border-bottom: 1px solid var(--border); font-size: 0.9rem; color: var(--text-muted); transition: background 0.2s; }
+    .courses-table tr:last-child td { border-bottom: none; }
+    .courses-table tr:hover td { background: #f8fafc; }
+    .courses-table a { color: var(--navy-mid); text-decoration: none; font-weight: 500; transition: color 0.2s; }
+    .courses-table a:hover { color: var(--gold); }
+
+    /* OPTIONALS */
+    .optional-section { background: #fff; }
+    .optional-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; max-width: 1000px; margin: 0 auto; }
+    .opt-item { padding: 16px 18px; background: var(--cream); border: 1px solid var(--border); border-left: 3px solid var(--gold); border-radius: 8px; font-size: 0.9rem; font-weight: 500; color: var(--navy); transition: transform 0.25s, box-shadow 0.25s, border-left-color 0.25s; cursor: default; }
+    .opt-item:hover { transform: translateX(4px); box-shadow: 0 4px 16px rgba(11,42,82,0.1); border-left-color: var(--navy); }
+
+    /* FAQ */
+    .faq-section { background: #f4f7fb; }
+    .faq-list { max-width: 780px; margin: 0 auto; }
+    .faq-item { margin-bottom: 12px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; transition: box-shadow 0.3s; }
+    .faq-item:hover { box-shadow: 0 4px 20px rgba(11,42,82,0.08); }
+    .faq-question { padding: 16px 22px; background: #fff; color: var(--navy); font-weight: 600; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 0.97rem; transition: background 0.2s; user-select: none; }
+    .faq-question:hover { background: #edf1f8; }
+    .faq-arrow { width: 26px; height: 26px; border-radius: 50%; background: var(--navy); color: white; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; transition: transform 0.35s, background 0.2s; }
+    .faq-item.open .faq-arrow { transform: rotate(45deg); background: var(--gold); color: var(--navy); }
+    .faq-answer { max-height: 0; overflow: hidden; background: #fafbfc; color: var(--text-muted); font-size: 0.9rem; line-height: 1.7; transition: max-height 0.45s ease, padding 0.3s ease; padding: 0 22px; }
+    .faq-answer.open { max-height: 260px; padding: 16px 22px; }
+
+    footer { background: var(--navy); color: rgba(255,255,255,0.75); padding: 56px 40px 28px; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1100px; margin: 0 auto 40px; }
+    .footer-col h4 { font-family: 'Playfair Display', serif; color: #fff; font-size: 1rem; margin-bottom: 18px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.12); }
+    .footer-col p { font-size: 0.88rem; line-height: 1.7; margin-bottom: 8px; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 10px; }
+    .footer-col a { color: rgba(255,255,255,0.6); text-decoration: none; font-size: 0.88rem; transition: color 0.2s, padding-left 0.2s; }
+    .footer-col a:hover { color: var(--gold-light); padding-left: 4px; }
+    .footer-social { display: flex; gap: 14px; margin-top: 16px; }
+    .footer-social a { width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.65); font-size: 0.95rem; transition: border-color 0.2s, color 0.2s, background 0.2s, transform 0.2s; }
+    .footer-social a:hover { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.1); transform: translateY(-3px); }
+    .footer-bottom { text-align: center; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.82rem; color: rgba(255,255,255,0.4); max-width: 1100px; margin: 0 auto; }
+
+    .reveal { opacity: 0; transform: translateY(36px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    @media (max-width: 1024px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 768px) {
+      :root { --header-h: 108px; }
+      .top-bar { padding: 10px 20px; }
+      .hamburger { display: flex; }
+      nav ul { flex-direction: column; align-items: stretch; max-height: 0; overflow: hidden; padding: 0; transition: max-height 0.4s ease; }
+      nav ul.open { max-height: 300px; padding: 8px 0; }
+      nav ul li { border-bottom: 1px solid rgba(255,255,255,0.08); }
+      nav a { padding: 14px 24px; }
+      .nav-indicator { display: none; }
+      section { padding: 50px 20px; }
+      .courses-grid { grid-template-columns: 1fr; }
+      .filter-bar { padding: 16px 20px; gap: 8px; }
+      .filter-chip { padding: 7px 14px; font-size: 0.8rem; }
+      .courses-table { font-size: 0.82rem; }
+      .courses-table th, .courses-table td { padding: 10px 14px; }
+    }
+    @media (max-width: 480px) {
+      .footer-grid { grid-template-columns: 1fr; }
+      .optional-grid { grid-template-columns: 1fr 1fr; }
+      .social-icons a { font-size: 0.95rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header id="mainHeader">
+  <div class="top-bar">
+    <a href="index.html" class="logo">
+      <img src="https://images.unsplash.com/photo-1606761568499-6d2451b23c66?w=80&h=80&fit=crop" alt="Ravindra IAS Logo" onerror="this.src='https://via.placeholder.com/48x48/0b2a52/c9a84c?text=R'" />
+      <div class="logo-text">
+        <span class="name">Ravindra's IAS Institute</span>
+        <span class="tagline">Bhopal's Premier UPSC Coaching</span>
+      </div>
+    </a>
+    <div style="display:flex;align-items:center;gap:20px;">
+      <div class="social-icons">
+        <a href="https://instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>
+        <a href="https://linkedin.com/" target="_blank"><i class="fab fa-linkedin"></i></a>
+        <a href="https://twitter.com/" target="_blank"><i class="fab fa-x-twitter"></i></a>
+        <a href="https://youtube.com/" target="_blank"><i class="fab fa-youtube"></i></a>
+      </div>
+      <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+  <nav>
+    <ul id="navList">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="courses.html" class="active">Courses</a></li>
+      <li><a href="study_resources.html">Study Resources</a></li>
+      <span class="nav-indicator" id="navIndicator"></span>
+    </ul>
+  </nav>
+</header>
+
+<div class="page-hero">
+  <h1>Our Courses</h1>
+  <p>Structured programmes for every stage of your UPSC journey.</p>
+  <div class="breadcrumb"><a href="index.html">Home</a> <span>/</span> <span>Courses</span></div>
+</div>
+
+<div class="filter-bar" id="filterBar">
+  <button class="filter-chip active" data-filter="all">All Courses</button>
+  <button class="filter-chip" data-filter="online">Online</button>
+  <button class="filter-chip" data-filter="offline">Offline</button>
+  <button class="filter-chip" data-filter="foundation">Foundation</button>
+  <button class="filter-chip" data-filter="advanced">Advanced</button>
+  <button class="filter-chip" data-filter="crash">Crash Course</button>
+  <button class="filter-chip" data-filter="gs">General Studies</button>
+  <button class="filter-chip" data-filter="optional">Optional</button>
+  <button class="filter-chip" data-filter="mains">Mains</button>
+</div>
+
+<!-- COURSES GRID -->
+<div class="scroll-layer" style="background:#f4f7fb;">
+  <section class="courses-section" style="border-radius:28px 28px 0 0;">
+    <div class="courses-grid" id="coursesGrid">
+
+      <div class="course-card reveal" data-mode="online" data-level="foundation" data-subject="gs">
+        <div class="course-img-wrap">
+          <img src="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=600&h=300&fit=crop" alt="GS Foundation" />
+          <div class="course-img-overlay"></div>
+        </div>
+        <div class="course-body">
+          <div class="course-meta"><span class="badge badge-mode">Online</span><span class="badge badge-level">Foundation</span></div>
+          <h3 class="course-title">GS Foundation Course</h3>
+          <ul class="course-features">
+            <li>12 months comprehensive GS coverage</li>
+            <li>Weekly test series & performance analysis</li>
+            <li>Current affairs modules</li>
+            <li>Live + recorded classes</li>
+          </ul>
+          <div class="course-actions">
+            <button class="btn-outline">View Details</button>
+            <button class="btn-primary">Join Now</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="course-card reveal reveal-delay-1" data-mode="offline" data-level="foundation" data-subject="gs">
+        <div class="course-img-wrap">
+          <img src="https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=600&h=300&fit=crop" alt="Offline GS" />
+          <div class="course-img-overlay"></div>
+        </div>
+        <div class="course-body">
+          <div class="course-meta"><span class="badge badge-mode">Offline</span><span class="badge badge-level">Foundation</span></div>
+          <h3 class="course-title">GS Foundation (Offline)</h3>
+          <ul class="course-features">
+            <li>Regular classroom coaching in Bhopal</li>
+            <li>Personal mentorship sessions</li>
+            <li>Printed study material</li>
+            <li>Doubt clearing sessions</li>
+          </ul>
+          <div class="course-actions">
+            <button class="btn-outline">View Details</button>
+            <button class="btn-primary">Join Now</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="course-card reveal reveal-delay-2" data-mode="online" data-level="advanced" data-subject="mains">
+        <div class="course-img-wrap">
+          <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=600&h=300&fit=crop" alt="Mains" />
+          <div class="course-img-overlay"></div>
+        </div>
+        <div class="course-body">
+          <div class="course-meta"><span class="badge badge-mode">Online</span><span class="badge badge-level">Advanced</span></div>
+          <h3 class="course-title">Mains Answer Writing</h3>
+          <ul class="course-features">
+            <li>Daily answer writing practice</li>
+            <li>Expert evaluation & detailed feedback</li>
+            <li>Essay writing modules</li>
+            <li>Ethics case studies</li>
+          </ul>
+          <div class="course-actions">
+            <button class="btn-outline">View Details</button>
+            <button class="btn-primary">Join Now</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="course-card reveal" data-mode="online" data-level="crash" data-subject="gs">
+        <div class="course-img-wrap">
+          <img src="https://images.unsplash.com/photo-1513258496099-48168024aec0?w=600&h=300&fit=crop" alt="Crash Course" />
+          <div class="course-img-overlay"></div>
+        </div>
+        <div class="course-body">
+          <div class="course-meta"><span class="badge badge-mode">Online</span><span class="badge badge-level">Crash Course</span></div>
+          <h3 class="course-title">Prelims Crash Course</h3>
+          <ul class="course-features">
+            <li>3 months intensive programme</li>
+            <li>50+ full-length mock tests</li>
+            <li>High-yield revision classes</li>
+            <li>CSAT coverage included</li>
+          </ul>
+          <div class="course-actions">
+            <button class="btn-outline">View Details</button>
+            <button class="btn-primary">Join Now</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="course-card reveal reveal-delay-1" data-mode="offline" data-level="advanced" data-subject="optional">
+        <div class="course-img-wrap">
+          <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&h=300&fit=crop" alt="History" />
+          <div class="course-img-overlay"></div>
+        </div>
+        <div class="course-body">
+          <div class="course-meta"><span class="badge badge-mode">Offline</span><span class="badge badge-level">Advanced</span></div>
+          <h3 class="course-title">History Optional</h3>
+          <ul class="course-features">
+            <li>Complete syllabus coverage</li>
+            <li>Answer writing practice</li>
+            <li>Previous year paper analysis</li>
+            <li>Personal guidance</li>
+          </ul>
+          <div class="course-actions">
+            <button class="btn-outline">View Details</button>
+            <button class="btn-primary">Join Now</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="course-card reveal reveal-delay-2" data-mode="online" data-level="foundation" data-subject="optional">
+        <div class="course-img-wrap">
+          <img src="https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&h=300&fit=crop" alt="Polity" />
+          <div class="course-img-overlay"></div>
+        </div>
+        <div class="course-body">
+          <div class="course-meta"><span class="badge badge-mode">Online</span><span class="badge badge-level">Foundation</span></div>
+          <h3 class="course-title">Polity & Governance Optional</h3>
+          <ul class="course-features">
+            <li>Concept building classes</li>
+            <li>Case studies & examples</li>
+            <li>Weekly tests</li>
+            <li>Current affairs linkages</li>
+          </ul>
+          <div class="course-actions">
+            <button class="btn-outline">View Details</button>
+            <button class="btn-primary">Join Now</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="course-card reveal" data-mode="online" data-level="advanced" data-subject="gs">
+        <div class="course-img-wrap">
+          <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=600&h=300&fit=crop" alt="Current Affairs" />
+          <div class="course-img-overlay"></div>
+        </div>
+        <div class="course-body">
+          <div class="course-meta"><span class="badge badge-mode">Online</span><span class="badge badge-level">Advanced</span></div>
+          <h3 class="course-title">Current Affairs Mastery</h3>
+          <ul class="course-features">
+            <li>Monthly current affairs modules</li>
+            <li>Weekly quizzes</li>
+            <li>Editorial analysis sessions</li>
+            <li>Linkage with static syllabus</li>
+          </ul>
+          <div class="course-actions">
+            <button class="btn-outline">View Details</button>
+            <button class="btn-primary">Join Now</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="course-card reveal reveal-delay-1" data-mode="offline" data-level="crash" data-subject="mains">
+        <div class="course-img-wrap">
+          <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?w=600&h=300&fit=crop" alt="Essay" />
+          <div class="course-img-overlay"></div>
+        </div>
+        <div class="course-body">
+          <div class="course-meta"><span class="badge badge-mode">Offline</span><span class="badge badge-level">Crash Course</span></div>
+          <h3 class="course-title">Essay Writing Workshop</h3>
+          <ul class="course-features">
+            <li>10-day intensive programme</li>
+            <li>Model essay evaluation</li>
+            <li>Topic-wise strategy</li>
+            <li>Philosophical essays focus</li>
+          </ul>
+          <div class="course-actions">
+            <button class="btn-outline">View Details</button>
+            <button class="btn-primary">Join Now</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="course-card reveal reveal-delay-2" data-mode="online" data-level="foundation" data-subject="gs">
+        <div class="course-img-wrap">
+          <img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=600&h=300&fit=crop" alt="CSAT" />
+          <div class="course-img-overlay"></div>
+        </div>
+        <div class="course-body">
+          <div class="course-meta"><span class="badge badge-mode">Online</span><span class="badge badge-level">Foundation</span></div>
+          <h3 class="course-title">CSAT Foundation Course</h3>
+          <ul class="course-features">
+            <li>Complete CSAT syllabus coverage</li>
+            <li>Quantitative aptitude</li>
+            <li>Logical reasoning</li>
+            <li>Reading comprehension skills</li>
+          </ul>
+          <div class="course-actions">
+            <button class="btn-outline">View Details</button>
+            <button class="btn-primary">Join Now</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="course-card reveal" data-mode="offline" data-level="advanced" data-subject="optional">
+        <div class="course-img-wrap">
+          <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=600&h=300&fit=crop" alt="Geography" />
+          <div class="course-img-overlay"></div>
+        </div>
+        <div class="course-body">
+          <div class="course-meta"><span class="badge badge-mode">Offline</span><span class="badge badge-level">Advanced</span></div>
+          <h3 class="course-title">Geography Optional</h3>
+          <ul class="course-features">
+            <li>Physical & Human Geography</li>
+            <li>Map work practice</li>
+            <li>Answer writing sessions</li>
+            <li>Current geography issues</li>
+          </ul>
+          <div class="course-actions">
+            <button class="btn-outline">View Details</button>
+            <button class="btn-primary">Join Now</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<!-- DESC -->
+<div class="scroll-layer" style="background:#fff;">
+  <section class="desc-section" style="border-radius:28px 28px 0 0;">
+    <div class="desc-box reveal">
+      <h2>Why UPSC Coaching Makes the Difference</h2>
+      <p>UPSC Civil Services Examination is one of the most prestigious and demanding exams in India. Success requires strategic preparation, conceptual clarity, and consistent practice over months. Our coaching transforms aspirants into toppers through structured programmes and personalised guidance.</p>
+      <p>We provide expert faculty, comprehensive study material, regular test series, and one-to-one mentorship. Our result-driven approach ensures you are exam-ready from day one, with flexible online and offline options suitable for both working professionals and full-time students.</p>
+    </div>
+  </section>
+</div>
+
+<!-- TABLE -->
+<div class="scroll-layer" style="background:#f4f7fb;">
+  <section class="table-section" style="border-radius:28px 28px 0 0;">
+    <h2 class="section-title reveal">All UPSC Courses at a Glance</h2>
+    <div class="section-rule reveal"></div>
+    <div style="overflow-x:auto;">
+      <table class="courses-table reveal">
+        <thead>
+          <tr><th>Course Name</th><th>Details</th><th>Duration</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><a href="#">GS Foundation 12 Months</a></td><td>Complete GS Coverage + Tests</td><td>12 months</td></tr>
+          <tr><td><a href="#">Mains 360° Programme</a></td><td>Answer Writing + Essay</td><td>6 months</td></tr>
+          <tr><td><a href="#">Prelims Crash Course</a></td><td>3 Months Intensive</td><td>3 months</td></tr>
+          <tr><td><a href="#">CSAT Mastery Programme</a></td><td>Quantitative + Reasoning</td><td>2 months</td></tr>
+          <tr><td><a href="#">Current Affairs Yearly</a></td><td>Monthly Modules + Quizzes</td><td>12 months</td></tr>
+          <tr><td><a href="#">Interview Guidance</a></td><td>Mock Interviews + PD</td><td>1 month</td></tr>
+          <tr><td><a href="#">History Optional</a></td><td>Complete Syllabus + Tests</td><td>8 months</td></tr>
+          <tr><td><a href="#">Geography Optional</a></td><td>Maps + Answer Writing</td><td>8 months</td></tr>
+          <tr><td><a href="#">Weekend Batch</a></td><td>For Working Professionals</td><td>12 months</td></tr>
+          <tr><td><a href="#">Complete Test Series</a></td><td>Prelims + Mains Tests</td><td>Yearly</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+<!-- OPTIONALS -->
+<div class="scroll-layer" style="background:#fff;">
+  <section class="optional-section" style="border-radius:28px 28px 0 0;">
+    <h2 class="section-title reveal">Optional Subjects We Offer</h2>
+    <div class="section-rule reveal"></div>
+    <div class="optional-grid">
+      <div class="opt-item reveal">History</div>
+      <div class="opt-item reveal reveal-delay-1">Geography</div>
+      <div class="opt-item reveal reveal-delay-2">Political Science</div>
+      <div class="opt-item reveal">Sociology</div>
+      <div class="opt-item reveal reveal-delay-1">Public Administration</div>
+      <div class="opt-item reveal reveal-delay-2">Anthropology</div>
+      <div class="opt-item reveal">Philosophy</div>
+      <div class="opt-item reveal reveal-delay-1">Psychology</div>
+    </div>
+  </section>
+</div>
+
+<!-- FAQ -->
+<div class="scroll-layer" style="background:#f4f7fb;">
+  <section class="faq-section" style="border-radius:28px 28px 0 0;">
+    <h2 class="section-title reveal">Why Choose Our Coaching?</h2>
+    <div class="section-rule reveal"></div>
+    <div class="faq-list">
+      <div class="faq-item reveal">
+        <div class="faq-question" onclick="toggleFaq(this)">Why does the UPSC exam matter? <span class="faq-arrow">+</span></div>
+        <div class="faq-answer">UPSC CSE opens doors to India's top civil services including IAS, IPS, and IFS. It is a gateway to national service, prestige, and a lifelong career with opportunities to make a genuine difference at the highest levels of governance.</div>
+      </div>
+      <div class="faq-item reveal reveal-delay-1">
+        <div class="faq-question" onclick="toggleFaq(this)">Why is coaching better than self-study alone? <span class="faq-arrow">+</span></div>
+        <div class="faq-answer">Coaching provides structured syllabus coverage, expert guidance, regular testing, answer writing practice, and peer learning. It significantly reduces preparation time, minimises errors, and substantially increases your probability of selection.</div>
+      </div>
+      <div class="faq-item reveal reveal-delay-2">
+        <div class="faq-question" onclick="toggleFaq(this)">What makes Ravindra's IAS different from others? <span class="faq-arrow">+</span></div>
+        <div class="faq-answer">Small batch sizes, truly personalised mentorship, a decade of proven results, flexible learning modes, comprehensive study material, and a culture of continuous doubt resolution set us clearly apart from larger, generic coaching centres.</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- FOOTER -->
+<div class="scroll-layer" style="background:var(--navy);">
+  <footer style="border-radius:28px 28px 0 0;">
+    <div class="footer-grid">
+      <div class="footer-col reveal">
+        <h4>Ravindra's IAS Institute</h4>
+        <p>A leading coaching institute for UPSC aspirants providing structured courses, expert mentorship, and result-oriented training.</p>
+        <p>📍 Bhopal, Madhya Pradesh</p>
+        <div class="footer-social">
+          <a href="https://youtube.com/" target="_blank"><i class="fab fa-youtube"></i></a>
+          <a href="https://facebook.com/" target="_blank"><i class="fab fa-facebook"></i></a>
+          <a href="https://instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="https://linkedin.com/" target="_blank"><i class="fab fa-linkedin"></i></a>
+          <a href="https://twitter.com/" target="_blank"><i class="fab fa-x-twitter"></i></a>
+        </div>
+      </div>
+      <div class="footer-col reveal reveal-delay-1">
+        <h4>UPSC Info</h4>
+        <ul>
+          <li><a href="#">UPSC Notifications</a></li>
+          <li><a href="#">UPSC Syllabus</a></li>
+          <li><a href="#">Exam Pattern</a></li>
+          <li><a href="#">Prelims Pattern</a></li>
+        </ul>
+      </div>
+      <div class="footer-col reveal reveal-delay-2">
+        <h4>Courses</h4>
+        <ul>
+          <li><a href="courses.html">GS Foundation</a></li>
+          <li><a href="courses.html">UPSC Mentorship</a></li>
+          <li><a href="courses.html">Online Coaching</a></li>
+          <li><a href="courses.html">Optional Subjects</a></li>
+        </ul>
+      </div>
+      <div class="footer-col reveal reveal-delay-3">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="study_resources.html">Study Resources</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 Ravindra's IAS Institute, Bhopal. All rights reserved.</div>
+  </footer>
+</div>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('navList').classList.toggle('open');
+    document.getElementById('hamburger').classList.toggle('open');
+  }
+  (function() {
+    const links = document.querySelectorAll('#navList a');
+    const indicator = document.getElementById('navIndicator');
+    const navList = document.getElementById('navList');
+    function moveTo(el) { const lr = navList.getBoundingClientRect(); const er = el.getBoundingClientRect(); indicator.style.opacity='1'; indicator.style.left=(er.left-lr.left)+'px'; indicator.style.width=er.width+'px'; }
+    links.forEach(l => l.addEventListener('mouseenter', () => moveTo(l)));
+    navList.addEventListener('mouseleave', () => { const a = document.querySelector('#navList a.active'); if(a) moveTo(a); });
+    window.addEventListener('resize', () => { const a = document.querySelector('#navList a.active'); if(a) moveTo(a); });
+    setTimeout(() => { const a = document.querySelector('#navList a.active'); if(a) moveTo(a); }, 80);
+  })();
+  let activeFilter = 'all';
+  document.querySelectorAll('.filter-chip').forEach(chip => {
+    chip.addEventListener('click', function() {
+      document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+      this.classList.add('active');
+      activeFilter = this.dataset.filter;
+      document.querySelectorAll('.course-card').forEach(card => {
+        const show = activeFilter === 'all' || card.dataset.mode === activeFilter || card.dataset.level === activeFilter || card.dataset.subject === activeFilter;
+        card.style.display = show ? 'flex' : 'none';
+        if(show) { card.style.animation = 'fadeIn 0.4s ease both'; }
+      });
+    });
+  });
+  function toggleFaq(el) {
+    const item = el.parentElement;
+    const ans = el.nextElementSibling;
+    const wasOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => { i.classList.remove('open'); i.querySelector('.faq-answer').classList.remove('open'); });
+    if (!wasOpen) { item.classList.add('open'); ans.classList.add('open'); }
+  }
+  const revealEls = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver(entries => { entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } }); }, { threshold: 0.1 });
+  revealEls.forEach(el => obs.observe(el));
+  window.addEventListener('scroll', () => { document.getElementById('mainHeader').classList.toggle('scrolled', window.scrollY > 40); });
+</script>
+</body>
+</html>
